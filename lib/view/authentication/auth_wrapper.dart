@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/navigation/bottom_nav_bar.dart';
 import 'package:ecommerce_app/view/authentication/log_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
         if (snapshot.hasData) {
-          return BottomAppBar();
+          return BottomNavBar();
         } else {
           return const LogInScreen();
         }
