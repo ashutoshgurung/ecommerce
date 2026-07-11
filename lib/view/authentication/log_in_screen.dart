@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/navigation/bottom_nav_bar.dart';
 import 'package:ecommerce_app/utils/validator.dart';
 import 'package:ecommerce_app/view/authentication/sign_up_screen.dart';
 import 'package:ecommerce_app/view_model/auth_view_model.dart';
@@ -27,6 +26,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = context.watch<AuthViewModel>();
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -164,17 +164,11 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      final authViewModel = context.read<AuthViewModel>();
-                      bool success = await authViewModel.logIn(
+                      bool success = await authViewModel.login(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
-                      if (success) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => BottomNavBar()),
-                        );
-                      } else {
+                      if (!success) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Invalid email or passowrd")),
                         );
@@ -189,14 +183,24 @@ class _LogInScreenState extends State<LogInScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: Text(
-                        "Log in",
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      // child: Text(
+                      //   "Log in",
+                      //   style: GoogleFonts.poppins(
+                      //     fontSize: 15,
+                      //     color: Colors.black,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      child: authViewModel.isLoading
+                          ? const SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Text("Login"),
                     ),
                   ),
                 ),
@@ -240,7 +244,17 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     SizedBox(width: 10),
                     Expanded(
-                      child: _socialButton("assets/icons/google_icon.png"),
+                      child: _socialButton(
+                        "assets/icons/google_icon.png",
+                        onTap: () async {
+                          bool success = await authViewModel.SignInWithGoogle();
+                          if (!success && context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Google Sign in failed")),
+                            );
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -285,16 +299,19 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget _socialButton(String asset) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white),
-        color: Colors.black,
-      ),
-      child: Center(
-        child: Image.asset(asset, height: 22, width: 22, color: Colors.white),
+  Widget _socialButton(String asset,{VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white),
+          color: Colors.black,
+        ),
+        child: Center(
+          child: Image.asset(asset, height: 22, width: 22, color: Colors.white),
+        ),
       ),
     );
   }
