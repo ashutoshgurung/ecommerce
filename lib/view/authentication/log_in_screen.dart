@@ -299,7 +299,7 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget _socialButton(String asset,{VoidCallback? onTap}) {
+  Widget _socialButton(String asset, {VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

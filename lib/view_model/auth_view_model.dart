@@ -7,21 +7,13 @@ class AuthViewModel extends ChangeNotifier {
 
   bool isLoading = false;
 
-  Stream<User?> get authStateChanges =>
-      _authService.authStateChanges;
+  Stream<User?> get authStateChanges => _authService.authStateChanges;
 
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
-
+  Future<bool> login({required String email, required String password}) async {
     isLoading = true;
     notifyListeners();
 
-    final user = await _authService.logIn(
-      email: email,
-      password: password,
-    );
+    final user = await _authService.logIn(email: email, password: password);
 
     isLoading = false;
     notifyListeners();
@@ -29,31 +21,25 @@ class AuthViewModel extends ChangeNotifier {
     return user != null;
   }
 
-  Future<bool> signup({
-    required String email,
-    required String password,
-  }) async {
-
+  Future<bool> signup({required String email, required String password}) async {
     isLoading = true;
     notifyListeners();
 
-    final user = await _authService.signUp(
-      email: email,
-      password: password,
-    );
+    final user = await _authService.signUp(email: email, password: password);
 
     isLoading = false;
     notifyListeners();
 
     return user != null;
   }
-  Future<bool>  SignInWithGoogle()async{
+
+  Future<bool> SignInWithGoogle() async {
     isLoading = true;
     notifyListeners();
     final user = await _authService.signInWithGoogle();
     isLoading = false;
     notifyListeners();
-    return user!=null;
+    return user != null;
   }
 
   Future<void> logout() async {

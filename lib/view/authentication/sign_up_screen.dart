@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
-
 import 'package:ecommerce_app/utils/validator.dart';
 import 'package:ecommerce_app/view/authentication/log_in_screen.dart';
 import 'package:ecommerce_app/view_model/auth_view_model.dart';

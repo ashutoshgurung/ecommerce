@@ -2,8 +2,10 @@ import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/core/widgets/textformfield_widget.dart';
 import 'package:ecommerce_app/model/favourite_screen_model.dart';
+import 'package:ecommerce_app/view/all_detail_screen.dart';
 import 'package:ecommerce_app/view/cart_screen.dart';
 import 'package:ecommerce_app/view/featured_detail_screen.dart';
+import 'package:ecommerce_app/view_model/all_detail_screen_viewModel.dart';
 import 'package:ecommerce_app/view_model/cart_view_model.dart';
 import 'package:ecommerce_app/view_model/favourite_view_model.dart';
 import 'package:ecommerce_app/view_model/featured_detail_screen_view_model.dart';
@@ -32,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // final vm = Provider.of<FavouriteViewModel>(context);
     final viewModel = Provider.of<FeaturedDetailScreenViewModel>(context);
     final featured = viewModel.productList;
+    final vm = Provider.of<AllDetailScreenViewmodel>(context);
+    final allDetailScreen = vm.allList;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -319,98 +323,104 @@ class _HomeScreenState extends State<HomeScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: all.length,
+                itemCount: allDetailScreen.length,
                 itemBuilder: (context, index) {
+                  final all = allDetailScreen[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12.0,
                       vertical: 12,
                     ),
-                    child: Container(
-                      height: 125,
-                      width: 600,
-                      decoration: BoxDecoration(
-                        color: Color(0xff232327),
-                        borderRadius: BorderRadius.circular(24.32),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(24.32),
-                              bottomLeft: Radius.circular(24.32),
-                            ),
-                            child: Image.asset(
-                              all[index]['image']!,
-                              height: 125,
-                              width: 110,
-                              fit: BoxFit.cover,
-                            ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                AllDetailScreen(allDetailScreen: all),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
+                        );
+                      },
+                      child: Container(
+                        height: 125,
+                        width: 600,
+                        decoration: BoxDecoration(
+                          color: Color(0xff232327),
+                          borderRadius: BorderRadius.circular(24.32),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24.32),
+                                bottomLeft: Radius.circular(24.32),
+                              ),
+                              child: Image.asset(
+                                all.image,
+                                height: 125,
+                                width: 110,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 5.0,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 5.0,
+                                    ),
+                                    child: Text(
+                                      all.title,
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 13,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                  child: Text(
-                                    all[index]['title'],
+                                  SizedBox(height: 5),
+                                  Text(
+                                    all.description,
                                     style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 13,
+                                      fontSize: 10,
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  all[index]['subtitle'],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  all[index]['below'],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 200,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        all[index]['price']!,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17,
-                                          color: Colors.white,
+                                  SizedBox(
+                                    width: 200,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          all.price,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.favorite_border_outlined,
-                                          color: Colors.white,
+                                        Spacer(),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.favorite_border_outlined,
+                                            color: Colors.white,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );

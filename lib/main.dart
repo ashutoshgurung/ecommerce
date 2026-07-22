@@ -1,5 +1,8 @@
 import 'package:ecommerce_app/firebase_options.dart';
+import 'package:ecommerce_app/view/all_detail_screen.dart';
+import 'package:ecommerce_app/view/authentication/auth_wrapper.dart';
 import 'package:ecommerce_app/view/authentication/log_in_screen.dart';
+import 'package:ecommerce_app/view_model/all_detail_screen_viewModel.dart';
 import 'package:ecommerce_app/view_model/auth_view_model.dart';
 import 'package:ecommerce_app/view_model/cart_view_model.dart';
 import 'package:ecommerce_app/view_model/favourite_view_model.dart';
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavouriteViewModel()),
         ChangeNotifierProvider(create: (_) => CartViewModel()),
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => AllDetailScreenViewmodel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: const LogInScreen(),
+        home: const AuthWrapper(),
       ),
     );
   }
