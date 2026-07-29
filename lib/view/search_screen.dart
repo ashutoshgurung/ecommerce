@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/core/widgets/textformfield_widget.dart';
+import 'package:ecommerce_app/view/category_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -43,26 +44,38 @@ class SearchScreen extends StatelessWidget {
                       horizontal: 12.0,
                       vertical: 12,
                     ),
-                    child: Container(
-                      height: 239.7,
-                      width: 196.23,
-                      decoration: BoxDecoration(
-                        color: Color(0xff232327),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(categories[index]['image']),
-                          SizedBox(height: 5),
-                          Text(
-                            categories[index]['title'],
-                            style: GoogleFonts.poppins(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xffC4C4C4),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CategoryProductsScreen(
+                              categoryTitle: categories[index]['title'],
                             ),
                           ),
-                        ],
+                        );
+                      },
+                      child: Container(
+                        height: 239.7,
+                        width: 196.23,
+                        decoration: BoxDecoration(
+                          color: Color(0xff232327),
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                        child: Column(
+                          children: [
+                            Image.asset(categories[index]['image']),
+                            SizedBox(height: 5),
+                            Text(
+                              categories[index]['title'],
+                              style: GoogleFonts.poppins(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xffC4C4C4),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/core/widgets/textformfield_widget.dart';
 import 'package:ecommerce_app/model/favourite_screen_model.dart';
 import 'package:ecommerce_app/view/all_detail_screen.dart';
+import 'package:ecommerce_app/view/all_products_screen.dart';
 import 'package:ecommerce_app/view/cart_screen.dart';
 import 'package:ecommerce_app/view/featured_detail_screen.dart';
 import 'package:ecommerce_app/view_model/all_detail_screen_viewModel.dart';
@@ -309,21 +310,49 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  "All",
-                  style: GoogleFonts.poppins(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 15,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "All",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AllProductsScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "See all",
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromARGB(255, 240, 230, 230),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 10),
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: allDetailScreen.length,
+                itemCount: allDetailScreen.length > 3
+                    ? 3
+                    : allDetailScreen.length,
                 itemBuilder: (context, index) {
                   final all = allDetailScreen[index];
                   return Padding(

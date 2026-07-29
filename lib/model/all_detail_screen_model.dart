@@ -5,6 +5,7 @@ class AllDetailScreenModel {
   String description;
   String price;
   double rating;
+  String category;
 
   AllDetailScreenModel({
     required this.id,
@@ -13,5 +14,6 @@ class AllDetailScreenModel {
     required this.description,
     required this.price,
     required this.rating,
+    required this.category,
   });
 }
